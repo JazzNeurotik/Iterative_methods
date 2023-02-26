@@ -1,42 +1,62 @@
-// Аналитически
+// Аналитический метод решения нелинейного уравнения
+
 #include <iostream>
 #include <cmath>
 
+using namespace std;
+
+// Определение функции f(x)
 double f(double x) {
-    return 2 * sin(x) - x + 0.4;
+return 2 * sin(x) - x + 0.4;
 }
 
+// Определение производной функции f(x)
 double df(double x) {
-    return 2 * cos(x) - 1;
+return 2 * cos(x) - 1;
 }
 
 int main() {
-    double a = -2.5;
-    double b = -1.5;
-    double eps = 0.001;
-    double beta = 0.01;
+// Определение начальных параметров
+double a = -2.5;
+double b = -1.5;
+double eps = 0.001;
+double beta = 0.01;
+// Вычисление значений функции на концах отрезка
+double fa = f(a);
+double fb = f(b);
 
-    double fa = f(a);
-    double fb = f(b);
-
-    if (fa * fb > 0) {
-        std::cout << "На отрезке [" << a << "," << b << "] нет корней!" << std::endl;
-        return 0;
-    }
-
-    double x = a;
-    double last_x = x;
-    double fx = f(x);
-    double dfx = df(x);
-
-    while (std::abs(x - last_x) > eps) {
-        last_x = x;
-        x = x - fx / dfx;
-        fx = f(x);
-        dfx = df(x);
-    }
-
-    std::cout << "Найденный корень: " << x << std::endl;
-
+// Проверка условия наличия корней на отрезке
+if (fa * fb > 0) {
+    cout << "На отрезке [" << a << "," << b << "] нет корней!" << endl;
     return 0;
+}
+
+// Начальное значение корня - левый конец отрезка
+double x = a;
+
+// Переменная для хранения предыдущего значения корня
+double last_x = x;
+
+// Значение функции и ее производной в начальной точке
+double fx = f(x);
+double dfx = df(x);
+
+// Итерационный процесс
+while (abs(x - last_x) > eps) {
+    // Сохранение предыдущего значения корня
+    last_x = x;
+
+    // Вычисление нового значения корня
+    x = x - fx / dfx;
+
+    // Обновление значений функции и ее производной
+    fx = f(x);
+    dfx = df(x);
+}
+
+// Вывод найденного корня
+cout << "Найденный корень: " << x << endl;
+
+return 0;
+
 }

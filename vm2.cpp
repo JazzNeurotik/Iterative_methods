@@ -1,4 +1,4 @@
-// МН
+// МН - Метод Ньютона
 #include <iostream>
 #include <cmath>
 
