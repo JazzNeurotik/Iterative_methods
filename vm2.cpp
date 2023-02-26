@@ -1,41 +1,43 @@
-// МН
+// МН - Метод Ньютона
 #include <iostream>
 #include <cmath>
 
 using namespace std;
 
+// Функция для которой ищем корень
 double f(double x)
 {
-    return 3*cos(2*x) - x + 0.25;
+return 3 * cos(2 * x) - x + 0.25;
 }
 
+// Производная функции f
 double f_prime(double x)
 {
-    return -6*sin(2*x) - 1;
+return -6 * sin(2 * x) - 1;
 }
 
 int main()
 {
-    double eps = 0.001;
-    double beta = 0.01;
+double eps = 0.001; // Заданная точность
+double beta = 0.01; // Параметр метода
+double a = 2.5; // Левая граница интервала
+double b = 2.9; // Правая граница интервала
 
-    double a = 2.5;
-    double b = 2.9;
+double x = (a + b) / 2; // Начальное приближение (середина интервала)
 
-    double x = (a + b) / 2;
-
-    do
+do // Итерационный процесс
+{
+    double x_new = x - beta * f(x) / f_prime(x); // Вычисляем новое приближение
+    if (abs(x_new - x) < eps) // Если разница между предыдущим и новым приближением меньше заданной точности
     {
-        double x_new = x - beta*f(x) / f_prime(x);
-        if (abs(x_new - x) < eps)
-        {
-            x = x_new;
-            break;
-        }
-        x = x_new;
-    } while (true);
+        x = x_new; // Устанавливаем новое значение корня
+        break; // Завершаем итерационный процесс
+    }
+    x = x_new; // Устанавливаем новое приближение и продолжаем итерационный процесс
+} while (true);
 
-    cout << "Найденный корень: " << x << endl;
+cout << "Найденный корень: " << x << endl; // Выводим найденный корень
 
-    return 0;
+return 0;
+
 }
