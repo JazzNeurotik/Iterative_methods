@@ -4,38 +4,36 @@
 
 using namespace std;
 
-double f(double x)
-{
-    return 3*cos(2*x) - x + 0.25;
+// Функция, заданное уравнение
+double f(double x) {
+    return 2*sin(x) - x + 0.4;
 }
 
-double f_prime(double x)
-{
-    return -6*sin(2*x) - 1;
+// Функция, производная от заданного уравнения
+double df(double x) {
+    return 2*cos(x) - 1;
 }
 
-int main()
-{
-    double eps = 0.001;
-    double beta = 0.01;
+int main() {
+    double x0 = -2.5;  // Начальное приближение
+    double x;
+    double eps = 0.001;  // Задаем точность вычислений
+    double beta = 0.01;  // Задаем параметр метода Ньютона
 
-    double a = 2.5;
-    double b = 2.9;
+    do {
+        x = x0 - beta*f(x0)/df(x0);  // Формула метода Ньютона с параметром beta
+        x0 = x;
+    } while (abs(f(x)) > eps);
 
-    double x = (a + b) / 2;
+    // После выполнения итераций x будет содержать приближенное значение корня уравнения
+    cout << "Корень уравнения 2sin(x) - x + 0.4 = 0 на отрезке [-2.5, -1.5] равен: " << x << endl;
 
-    do
-    {
-        double x_new = x - beta*f(x) / f_prime(x);
-        if (abs(x_new - x) < eps)
-        {
-            x = x_new;
-            break;
-        }
-        x = x_new;
-    } while (true);
-
-    cout << "Найденный корень: " << x << endl;
+    // Проверяем, что найденное значение является корнем уравнения
+    if (abs(f(x)) < eps) {
+        cout << "Найденное значение является корнем уравнения." << endl;
+    } else {
+        cout << "Найденное значение не является корнем уравнения." << endl;
+    }
 
     return 0;
 }

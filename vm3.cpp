@@ -1,27 +1,42 @@
-// ММН
+// Аналитически
 #include <iostream>
 #include <cmath>
 
-using namespace std;
-
 double f(double x) {
-    return 3*cos(2*x) - x + 0.25;
+    return 2 * sin(x) - x + 0.4;
 }
 
 double df(double x) {
-    return -6*sin(2*x) - 1;
+    return 2 * cos(x) - 1;
 }
 
 int main() {
-    double a = 2.5, b = 2.9, x0 = (a+b)/2.0, eps = 0.001, beta = 0.01;
-    double x = x0 - beta*f(x0)/df(x0);
-    
-    do {
-        x0 = x;
-        x = x0 - beta*f(x0)/df(x0);
-    } while (abs(x - x0) > eps);
-    
-    cout << "Найденный корень: " << x << endl;
-    
+    double a = -2.5;
+    double b = -1.5;
+    double eps = 0.001;
+    double beta = 0.01;
+
+    double fa = f(a);
+    double fb = f(b);
+
+    if (fa * fb > 0) {
+        std::cout << "На отрезке [" << a << "," << b << "] нет корней!" << std::endl;
+        return 0;
+    }
+
+    double x = a;
+    double last_x = x;
+    double fx = f(x);
+    double dfx = df(x);
+
+    while (std::abs(x - last_x) > eps) {
+        last_x = x;
+        x = x - fx / dfx;
+        fx = f(x);
+        dfx = df(x);
+    }
+
+    std::cout << "Найденный корень: " << x << std::endl;
+
     return 0;
 }

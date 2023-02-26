@@ -1,27 +1,37 @@
-// Аналитически
-
+// ММН
 #include <iostream>
-#include <math.h>
+#include <cmath>
+
+using namespace std;
+
+double f(double x) {
+    return 2*sin(x) - x + 0.4;
+}
+
+double f_deriv(double x) {
+    return 2*cos(x) - 1;
+}
+
+double modified_newton(double x, double eps, double beta) {
+    while (abs(f(x)) > eps) {
+        x = x - beta*f(x)/f_deriv(x);
+    }
+    return x;
+}
 
 int main() {
-    const double eps = 0.001;
-    const double beta = 0.01;
+    double eps = 0.001;
+    double beta = 0.01;
+    double x0 = -2.0;
+    double x1 = -1.5;
+    double root = modified_newton(x0, eps, beta);
 
-    double a = 2.5;
-    double b = 2.9;
-    double x;
-
-    do {
-        x = (a + b) / 2;
-        double f = 3 * cos(2 * x) - x + 0.25;
-        if (f > 0) {
-            b = x;
-        } else {
-            a = x;
-        }
-    } while (fabs(b - a) > eps);
-
-    std::cout << "Найденный корень: " << x << std::endl;
+    if (f(x0) * f(x1) < 0) {
+        cout << "Уравнение имеет единственный корень на отрезке [" << x0 << ", " << x1 << "]" << endl;
+        cout << "Корень равен: " << root << endl;
+    } else {
+        cout << "Уравнение не имеет единственного корня на отрезке [" << x0 << ", " << x1 << "]" << endl;
+    }
 
     return 0;
 }

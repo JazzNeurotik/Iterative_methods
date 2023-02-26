@@ -1,25 +1,26 @@
-// 13 вариант
 // МПИ
-// 3cos(2x) - x + 0.25 = 0 [2.5;2.9]
-
 #include <iostream>
 #include <cmath>
 
 using namespace std;
 
+double f(double x) {
+    return 2*sin(x) - x + 0.4;
+}
+
 int main() {
+    double x0 = -2.5;  // Начальное приближение
+    double x;
     double eps = 0.001;
     double beta = 0.01;
 
-    double x = 2.9;
-    double prev_x;
-
     do {
-        prev_x = x;
-        x = prev_x - beta * (3 * cos(2 * prev_x) - prev_x + 0.25);
-    } while (abs(x - prev_x) > eps);
+        x = x0;
+        x0 = x + beta*f(x);  // Формула метода простых итераций
+    } while (abs(x0 - x) >= eps);
 
-    cout << "Корень уравнения: " << x << endl;
+    cout << "Корень уравнения 2sin(x) - x + 0.4 = 0 на отрезке [-2.5, -1.5] равен: " << x0 << endl;
 
     return 0;
 }
+
